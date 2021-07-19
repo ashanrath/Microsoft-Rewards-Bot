@@ -17,3 +17,4 @@ geckodriver.log
 *.pyc
 *.pyo
 .DS_Store
+debug.log
