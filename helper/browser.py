@@ -55,8 +55,8 @@ class Browser(webdriver.Chrome):
         options.add_argument('--no-sandbox')
         options.add_argument("--disable-extensions")
         options.add_argument('--disable-dev-shm-usage')
-        options.add_argument("--log-level=3")
         options.add_experimental_option('w3c', False)
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
         return options
 
     def _is_same_ua(self, user_agent):

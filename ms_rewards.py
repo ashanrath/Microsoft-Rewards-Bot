@@ -16,7 +16,7 @@ def check_python_version():
     """
     Ensure the correct version of Python is being used.
     """
-    minimum_version = ('3', '6')
+    minimum_version = ('3', '9')
     if platform.python_version_tuple() < minimum_version:
         message = 'Only Python %s.%s and above is supported.' % minimum_version
         raise Exception(message)
@@ -104,8 +104,8 @@ if __name__ == '__main__':
             logging.info(
                 msg='--------------------------------------------------')
             logging.info(msg=f'Current account: {msr.email}')
-            msr.work(pc=parser.pc_mode, mobile=parser.mobile_mode,
-                     quiz=parser.quiz_mode)
+            msr.work(flag_pc=parser.pc_mode, flag_mob=parser.mobile_mode,
+                     flag_quiz=parser.quiz_mode)
 
     except WebDriverException:
         logging.exception(msg='Failure at main()')

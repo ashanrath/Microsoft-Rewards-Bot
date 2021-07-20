@@ -2,6 +2,7 @@ import logging
 import time
 import json
 import re
+import datetime
 
 from helper.browser import Browser
 
@@ -59,7 +60,7 @@ class MSRStatsSummary:
 
     @property
     def all_done(self) -> bool:
-        return self.punch_card_done and self.quiz_done and self.mob_search_done and self.pc_search_done1
+        return self.punch_card_done and self.quiz_done and self.mob_search_done and self.pc_search_done
 
     def print(self):
         logging.info(msg=f'Account summary:')
@@ -84,7 +85,7 @@ class MSRStats:
         self._browser.open_in_new_tab(DASHBOARD_URL)
         time.sleep(1)
 
-        self.summary = MSRStatsSummary(log=True)
+        self.summary = MSRStatsSummary()
         self._parse_user_status(self._get_user_status_json())
 
         self._browser.goto_main_window()
@@ -106,15 +107,25 @@ class MSRStats:
         return json.loads(matches[0][:-1])
 
     def _parse_user_status(self, json_doc):
-        self.summary.available_points = int(
-            json_doc['userStatus']['availablePoints'])
+        if 'userStatus' not in json_doc:
+            logging.exception('Cannot find key "userStatus"')
+            return
+        self._parse_available_points(json_doc['userStatus'])
         self._parse_pc_search(json_doc['userStatus']['counters'])
         self._parse_mobile_search(json_doc['userStatus']['counters'])
         self._parse_quiz(json_doc)
+        self._parse_daily(json_doc)
         self._parse_punch_cards(json_doc)
+
+    def _parse_available_points(self, user_status):
+        if 'availablePoints' not in user_status:
+            logging.exception('Cannot find key "availablePoints"')
+            return
+        self.summary.available_points = int(user_status['availablePoints'])
 
     def _parse_pc_search(self, counters):
         if 'pcSearch' not in counters:
+            logging.exception('Cannot find key "pcSearch"')
             return
         pcs = counters['pcSearch'][0]
         self.summary.pc_search_progress = int(pcs['pointProgress'])
@@ -122,22 +133,36 @@ class MSRStats:
 
     def _parse_mobile_search(self, counters):
         if 'mobileSearch' not in counters:
+            logging.info('Cannot find key "mobileSearch". Mobile search is unavailable.')
             return
         mbs = counters['mobileSearch'][0]
         self.summary.mobile_search_progress = int(mbs['pointProgress'])
         self.summary.mobile_search_max = int(mbs['pointProgressMax'])
 
-    def _parse_quiz(self, status):
-        if 'morePromotions' not in status:
+    def _parse_quiz(self, json_doc):
+        if 'morePromotions' not in json_doc:
+            logging.exception('Cannot find key "morePromotions"')
             return
-        for q in status['morePromotions']:
+        for q in json_doc['morePromotions']:
             self.summary.quiz_progress += int(q['pointProgress'])
             self.summary.quiz_max += int(q['pointProgressMax'])
 
-    def _parse_punch_cards(self, status):
-        if 'punchCards' not in status:
+    def _parse_daily(self, json_doc):
+        if 'dailySetPromotions' not in json_doc:
+            logging.exception('Cannot find key "dailySetPromotions"')
             return
-        for c in status['punchCards']:
+        today = f'{datetime.datetime.now():%m/%d/%Y}'
+        if today not in json_doc['dailySetPromotions']:
+            return
+        for d in json_doc['dailySetPromotions'][today]:
+            self.summary.quiz_progress += int(d['pointProgress'])
+            self.summary.quiz_max += int(d['pointProgressMax'])
+
+    def _parse_punch_cards(self, json_doc):
+        if 'punchCards' not in json_doc:
+            logging.exception('Cannot find key "punchCards"')
+            return
+        for c in json_doc['punchCards']:
             p = c['parentPromotion']
             if not p:
                 continue

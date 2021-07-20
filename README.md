@@ -51,12 +51,15 @@ This program will automatically complete search requests and quizzes on Microsof
 
 ## To Do
 
-- os.environ variables for multiple logins (current account names and passwords
-  are too long)
-- Proxy support
-- Multithreaded mode or seleniumGrid
-- Support for other regions
-- Telegram Intergration for reporting bot status/total points.
+- High priority:
+  - More logging
+  - More type hint
+  - Windows notification
+- Low priority:
+  - Proxy support
+  - Multithreaded mode or seleniumGrid
+  - Support for other regions
+  - Telegram Intergration for reporting bot status/total points.
 
 ## License
 
