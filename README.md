@@ -10,50 +10,39 @@ This program will automatically complete search requests and quizzes on Microsof
 
 - Completes PC search, Edge search, Mobile search via user agents
 - Retrieves top daily searches via Google Trends' API
-- Completes polls, all types of quizzes (multiple choice, click and drag and reorder), and explore dailies
+- Completes polls, all types of quizzes (multiple choice, click and drag and reorder), punch cards and explore dailies
 - Headless mode (Confirmed working on DigitalOcean linux droplet)
-- Supports unlimited accounts via JSON, in randomized order.
+- Supports unlimited accounts via JSON.
 - Randomized search speeds
 - Logs errors and info by default, can log executed commands and search terms by changing the log level to DEBUG
-- Tested and confirmed working for U.S. and U.K. (more to come!)
+- Tested and confirmed working for U.K. (more to come!)
 
 ## Requirements
 
-- Python 3.6
-- Requests 2.23.0
-- Selenium 3.141.0
-- Chrome Browser
+- Python          3.9
+- Requests        2.25.1
+- Selenium        3.141.0
+- pyotp           2.6.0
+- Chrome Browser  Up-to-date
 
 ## How to Use
 
 1.  Clone and navigate to repo
-2.  Modify `ms_rewards_login_dict.json` with your account names and passwords,
+2.  Modify `ms_rewards_login_dict.json.example` with your account names and passwords,
     remove `.example` from filename.
-3.  Enter into cmd/terminal/shell: `pip install -r requirements.txt`
-    - This installs dependencies (selenium)
-4.  Enter into cmd/terminal/shell: `python ms_rewards.py --headless --mobile --pc --quiz`
+3.  If your account has 2-factor authentication (2FA) enabled, please follow [README-2FA](README-2FA.md).
+4.  Enter into cmd/terminal/shell: `python -m pip install -r requirements.txt`
+    - This installs dependencies (selenium, requests and pytop)
+5.  Enter into cmd/terminal/shell: `python ms_rewards.py --headless --mobile --pc --quiz`
     - enter `-h` or `--help` for more instructions
     - `--headless` is for headless mode
     - `--mobile` is for mobile search
     - `--pc` is for pc search
     - `--quiz` is for quiz search
     - `-a` or `--all` is short for mobile, pc, and quiz search
-    - `--authenticator` use Microsoft Authenticator prompts instead of
-        passwords
-        - **When using Microsoft Authenticator:**
-        - Headless mode is always disabled
-        - Respond to the prompt within 90 seconds and Approve the sign in request - Learn how to use and download the app at <https://go.microsoft.com/fwlink/?linkid=871853>
     - Script by default will execute mobile, pc, edge, searches, and complete quizzes for all accounts (can change this setting in the .py file)
     - Script by default will run in interactive mode
-    - Run time for one account is under 5 minutes, for 100% daily completion
     - If python environment variable is not set, enter `/path/to/python/executable ms_rewards.py`
-5.  For completing points from email links:
-    - Modify email_links.txt file with email links. - Copy and paste links without surrounding quotes, each on individual line, like such:
-          httplink2
-          httplink3
-    - Enter cmd/terminal/shell argument `python ms_rewards.py --email`
-    - **Script will be manual, requires key press to continue, as the quizzes
-      are not yet standardized.**
 6.  Crontab (Optional for automated script daily on linux)
     - Enter in terminal: `crontab -e`
     - Enter in terminal: `0 12 * * * /path/to/python /path/to/ms_rewards.py --headless --mobile --pc --quiz`
@@ -62,9 +51,6 @@ This program will automatically complete search requests and quizzes on Microsof
 
 ## To Do
 
-- Argparse for options: - logging - custom user agents
-- Rewrite script into class-based code or Organize monolithic code into
-  different py files for maintainability
 - os.environ variables for multiple logins (current account names and passwords
   are too long)
 - Proxy support
@@ -78,11 +64,11 @@ This program will automatically complete search requests and quizzes on Microsof
 
 ## Versions
 
-For a summary of changes in each version of the bot, please see the
-**[CHANGELOG](CHANGELOG.md).** Alternatively, a list of
-**[all commits to LjMario007/master](https://github.com/LjMario007/Microsoft-Rewards-Bot/commits/master)**
-is also available.
+For a summary of changes in each version of the bot, please see
+**[CHANGELOG](CHANGELOG.md).**
 
 #### Special Thanks
 
 @ShoGinn - for extraordinary assistance in making this project better!
+@LjMario007 - for previous developments
+@blackluv - for the original idea and developments
