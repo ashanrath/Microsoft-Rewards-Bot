@@ -70,8 +70,8 @@ This program will automatically complete search requests and quizzes on Microsof
 For a summary of changes in each version of the bot, please see
 **[CHANGELOG](CHANGELOG.md).**
 
-#### Special Thanks
+#### Credit
 
+@LjMario007 - for previous developments<br />
+@blackluv - for the original idea and developments<br />
 @ShoGinn - for extraordinary assistance in making this project better!
-@LjMario007 - for previous developments
-@blackluv - for the original idea and developments
