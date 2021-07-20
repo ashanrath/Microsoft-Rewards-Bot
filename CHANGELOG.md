@@ -1,3 +1,10 @@
+**2021-07-19**
+
+    - Massive code refactorisation to promote readability and extensibility
+    - Added support for punch cards
+    - Added support for automated 2FA, using built-in passcode generator
+    - Improved terminal messages: Messages from webdriver console will no longer flood terminal and loggings are now presented in terminals
+
 **2019-07-09**
 
     - Fixed sporadic crashes caused by geolocation requests

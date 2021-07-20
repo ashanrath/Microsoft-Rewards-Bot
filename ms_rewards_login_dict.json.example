@@ -1,1 +1,11 @@
-{"username": "password", "username": "password", "username": "password"}
+[
+    {
+        "email": "account_1@outlook.com",
+        "password": "mypassword_1"
+    },
+    {
+        "email": "account_2@outlook.com",
+        "password": "mypassword_2",
+        "secret": "my_2FA_secret"
+    }
+]
