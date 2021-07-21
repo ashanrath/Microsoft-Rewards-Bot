@@ -16,4 +16,4 @@ The master branch will be used for stable release. For now, there is no stable r
 
 ## Use
 
-Please check [this guide](https://github.com/tmxkn1/Microsoft-Rewards-Bot/tree/alpha#how-to-use).
+Please check [this guide](https://github.com/tmxkn1/Microsoft-Rewards-Bot/tree/alpha#requirements).
