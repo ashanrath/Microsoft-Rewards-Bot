@@ -8,4 +8,6 @@ This program will automatically complete search requests and quizzes on Microsof
 
 ## Development
 
-The current master branch is dated and the previous developers' current commitment is unknown. Therefore, I have decided to take the current state of the project and further develop it. I have released an [alpha version](https://github.com/tmxkn1/Microsoft-Rewards-Bot/releases/tag/v2.0.1) and it runs well on my local machine. You are encouraged to try it out and any feedback is greatly appreciated.
+The current master branch is pretty dated with to-do untouched. Since the developers' current commitment to the project is unknown, I have decided to take the current state and further develop it. 
+
+The master branch will be used for stable release. For now, there is no stable release - I do not intend to call my locally tested [alpha version](https://github.com/tmxkn1/Microsoft-Rewards-Bot/releases/tag/v2.0.1) stable. You are encouraged to try the alpha version out. Any feedback is greatly appreciated.
