@@ -1,4 +1,6 @@
-**2021-07-19**
+**2021-07-21**
+
+    V2.0.1
 
     - Massive code refactorisation to promote readability and extensibility
     - Added support for automated 2FA, using built-in passcode generator
