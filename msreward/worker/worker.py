@@ -22,5 +22,5 @@ class MSRWorker:
             self._dashboard.do_dashboard()
     
     def do_punchcard(self, summary: MSRStatsSummary):
-        if len(summary.punch_card_links):
+        if len(summary.punch_card_links) and not summary.punch_card_done:
             self._dashboard.do_punch_card(summary.punch_card_links)

@@ -21,7 +21,7 @@ class QuizBase:
 
     def available(self):
         if self._browser.find_elements(self._by, self._selector):
-            logging.debug(msg=f'{self._name} Quiz identified.')
+            logging.info(msg=f'{self._name} Quiz identified.')
             return True
         return False
 

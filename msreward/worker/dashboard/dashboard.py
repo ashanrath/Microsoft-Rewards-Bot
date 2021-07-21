@@ -28,7 +28,7 @@ class MSRDashboard:
             offer_links = self._goto_dashboard_get_offer_links()
             if not offer_links:
                 logging.info(msg='No more dashboard offers found.')
-                break
+                return
             
             for link in offer_links:
                 self._do_offer(link)
@@ -39,7 +39,7 @@ class MSRDashboard:
         open_offers = self._browser.find_elements_by_xpath(
             '//span[contains(@class, "mee-icon-AddMedium")]')
         logging.info(
-            msg=f'Number of incomplete offers remaining: {len(open_offers)}')
+            msg=f'Max attempt reached. Number of incomplete offers: {len(open_offers)}')
 
     def do_punch_card(self, links):
         for link in links:

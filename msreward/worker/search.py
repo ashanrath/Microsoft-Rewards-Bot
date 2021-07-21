@@ -57,8 +57,8 @@ class MSRSearch():
     def _search(self, search_terms:list[str], num_of_searches:int):
         for num, item in enumerate(search_terms):
             try:
+                logging.info(msg=f'Search #{num}: {item[:80]}')
                 self._search_term(item)
-                logging.debug(msg=f'Search #{num}: {item[:80]}')
                 if num == num_of_searches - 1:
                     remaining = self._get_num_of_searches()
                     if remaining <= 0:
