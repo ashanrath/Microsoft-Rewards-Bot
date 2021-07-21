@@ -13,3 +13,7 @@ The current master branch is pretty dated with to-do untouched. Since the develo
 The master branch will be used for stable release. For now, there is no stable release - I do not intend to call my locally tested alpha version stable. You are encouraged to try the alpha version out. Any feedback is greatly appreciated.
 
 - [v2.0.1 alpha](https://github.com/tmxkn1/Microsoft-Rewards-Bot/releases/tag/v2.0.1)
+
+## Use
+
+Please check [this guide](https://github.com/tmxkn1/Microsoft-Rewards-Bot/tree/alpha#how-to-use).
