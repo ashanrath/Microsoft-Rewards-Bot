@@ -14,29 +14,27 @@ class DragDropQuiz(QuizBase):
         super().__init__(browser, 'Drag&Drop', 'rqAnswerOptionNum0', By.ID)
 
     def _do_quiz(self):
-        while True:
+        for _ in range(100):
+            if self._browser.find_by_id('quizCompleteContainer'):
+                break
+            drag_options = self._get_options_for_drag_drop()
+            if not drag_options:
+                continue
             try:
-                # find possible solution buttons
-                drag_option = self._browser.find_by_class('rqOption')
-                # find any answers marked correct with correctAnswer tag
-                right_answers = self._browser.find_by_class('correctAnswer')
-                # remove right answers from possible choices
-                if right_answers:
-                    drag_option = [
-                        x for x in drag_option if x not in right_answers]
-                if drag_option:
-                    # select first possible choice and remove from options
-                    choice_a = random.choice(drag_option)
-                    drag_option.remove(choice_a)
-                    # select second possible choice from remaining options
-                    choice_b = random.choice(drag_option)
-                    ActionChains(self._browser.browser).drag_and_drop(
-                        choice_a, choice_b).perform()
+                choice_a = random.choice(drag_options)
+                drag_options.remove(choice_a)
+                choice_b = random.choice(drag_options)
+                ActionChains(self._browser).drag_and_drop(choice_a, choice_b).perform()
             except (WebDriverException, TypeError):
                 logging.debug(msg='Unknown Error.')
                 continue
-            finally:
-                time.sleep(1)
-                if self._browser.find_by_id('quizCompleteContainer'):
-                    break
+            time.sleep(1)
+
         self._close_quiz_comletion_splash()
+
+    def _get_options_for_drag_drop(self):
+        drag_options = self._browser.find_by_class('rqOption')
+        right_answers = self._browser.find_by_class('correctAnswer')
+        if right_answers:
+            drag_options = [x for x in drag_options if x not in right_answers]
+        return drag_options
