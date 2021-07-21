@@ -19,15 +19,15 @@ This program will automatically complete search requests and quizzes on Microsof
 
 ## Requirements
 
-- Python          3.9
+- Python          [3.9](https://www.python.org/downloads/)
 - Requests        2.25.1
 - Selenium        3.141.0
 - pyotp           2.6.0
-- Chrome Browser  Up-to-date
+- Chrome Browser  (Up-to-date)
 
 ## How to Use
 
-1.  Clone and navigate to repo
+1.  Clone and navigate to repo or download the latest [release](https://github.com/tmxkn1/Microsoft-Rewards-Bot/releases).
 2.  Modify `ms_rewards_login_dict.json.example` with your account names and passwords,
     remove `.example` from filename.
 3.  If your account has 2-factor authentication (2FA) enabled, please follow [README-2FA](README-2FA.md).
