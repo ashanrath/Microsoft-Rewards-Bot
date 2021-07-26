@@ -109,3 +109,8 @@ if __name__ == '__main__':
 
     except WebDriverException:
         logging.exception(msg='Failure at main()')
+    finally:
+        logging.info(msg='--------------------------------------------------')
+        logging.info(msg='-----------------------End------------------------')
+        logging.info(msg='--------------------------------------------------')
+        input('Press any key to exit...')

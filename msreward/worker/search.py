@@ -79,13 +79,13 @@ class MSRSearch():
         # random sleep for more human-like, and let ms reward website keep up.
         time.sleep(random.randint(1, 3))
         self._browser.wait_until_clickable(
-            By.XPATH, '//*[@id="id_rc" or @id="bpage"]', 15)
+            By.XPATH, '//*[@id="id_rc" or @id="bpage"]', 5)
         self._browser.scroll_to_bottom()
         time.sleep(random.randint(1, 3))
         self._browser.scroll_to_top()
 
 def today_str():
-    datetime.now().strftime("%Y%m%d")
+    return datetime.now().strftime("%Y%m%d")
 
 def get_dates(days_to_get=4) -> str:
     """
@@ -102,7 +102,7 @@ def get_dates(days_to_get=4) -> str:
     return dates
 
 class SearchTerms:
-    SEARCH_TERM_LOCAL_FILE = 'search_terms.json'
+    SEARCH_TERM_LOCAL_FILE = 'logs/search_terms.json'
 
     def __init__(self):
         self.search_terms = []

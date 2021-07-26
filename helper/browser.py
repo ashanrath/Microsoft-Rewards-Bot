@@ -11,13 +11,12 @@ from selenium.common.exceptions import WebDriverException, TimeoutException, \
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from helper.driver import download_driver
 
 class Browser(webdriver.Chrome):
-    def __init__(self, headless_mode: bool, user_agent):
+    def __init__(self, headless_mode: bool, user_agent: str):
         self.mobile_mode = 'android' in user_agent.lower()
         self.user_agent = user_agent
         
@@ -25,17 +24,10 @@ class Browser(webdriver.Chrome):
 
         options = self._get_driver_options()
 
-        prefs = {
-            "profile.default_content_setting_values.geolocation": 2, 
-            "profile.default_content_setting_values.notifications": 2
-        }
-
-        options.add_experimental_option("prefs", prefs)
-
         if headless_mode:
             options.add_argument('--headless')
 
-        super().__init__(path, options=options)
+        super().__init__(path, chrome_options=options)
 
     @staticmethod
     def _prepare_driver():
@@ -53,10 +45,14 @@ class Browser(webdriver.Chrome):
         options.add_argument(f'user-agent={self.user_agent}')
         options.add_argument('--disable-webgl')
         options.add_argument('--no-sandbox')
-        options.add_argument("--disable-extensions")
         options.add_argument('--disable-dev-shm-usage')
         options.add_experimental_option('w3c', False)
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        prefs = {
+            "profile.default_content_setting_values.geolocation": 2, 
+            "profile.default_content_setting_values.notifications": 2
+        }
+        options.add_experimental_option("prefs", prefs)
         return options
 
     def _is_same_ua(self, user_agent):

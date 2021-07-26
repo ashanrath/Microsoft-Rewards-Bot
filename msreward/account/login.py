@@ -42,7 +42,9 @@ class MSRLogin:
             By.XPATH, '//*[@id="uhfLogo" or @id="microsoft"]', 10)
 
         self._log_into_bing_mobile() if self._browser.mobile_mode else self._log_into_bing_pc()
+        time.sleep(1)
         self._accept_bnp()
+        time.sleep(1)
         logging.info(msg='Logging successful.')
 
     def _enter_email(self):

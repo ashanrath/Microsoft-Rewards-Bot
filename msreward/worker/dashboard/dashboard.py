@@ -24,6 +24,7 @@ class MSRDashboard:
         self._browser = browser
 
     def do_dashboard(self, max_attempts=5):
+        #TODO Use quiz name to find link
         for _ in range(max_attempts):
             offer_links = self._goto_dashboard_get_offer_links()
             if not offer_links:
@@ -62,21 +63,14 @@ class MSRDashboard:
     def _goto_dashboard_get_offer_links(self) -> list[WebElement]:
         self._browser.get(DASHBOARD_URL)
         time.sleep(4)
-        open_offers = self._browser.find_elements_by_xpath('//span[contains(@class, "mee-icon-AddMedium")]')
+        open_offers = self._browser.find_elements_by_xpath('//span[contains(@class, "mee-icon-AddMedium")]/ancestor::div[contains(@data-bi-id, "Default")]')
+        logging.info(msg=f'Number of open offers: {len(open_offers)}')
         if not open_offers:
             return []
-        return self._extract_offer_links(open_offers)
-
-    def _extract_offer_links(self, open_offer_ele):
-        logging.info(msg=f'Number of open offers: {len(open_offer_ele)}')
-        # get common parent element of open_offers
-        parent_elements = [open_offer.find_element_by_xpath(
-            '..//..//..//..') for open_offer in open_offer_ele]
-        # get points links from parent, # finds link (a) descendant of selected node
         return [
-            parent.find_element_by_xpath(
+            offer.find_element_by_xpath(
                 'div[contains(@class,"actionLink")]//descendant::a')
-            for parent in parent_elements
+            for offer in open_offers
         ]
 
     def _complete_sign_in_prompt(self):

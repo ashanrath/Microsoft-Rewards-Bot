@@ -22,9 +22,10 @@ class MSRStatsSummary:
         self.mobile_search_max = 0
         self.quiz_progress = 0
         self.quiz_max = 0
+        self.quiz_incomplete_names = []
         self.punch_card_progress = 0
         self.punch_card_max = 0
-        self.punch_card_links = []
+        self.punch_card_incomplete_links = []
 
     @property
     def num_of_pc_search_needed(self) -> int:
@@ -52,11 +53,11 @@ class MSRStatsSummary:
 
     @property
     def quiz_done(self) -> bool:
-        return self.quiz_progress >= self.quiz_max
+        return self.quiz_incomplete_names == []
 
     @property
     def punch_card_done(self) -> bool:
-        return self.punch_card_progress >= self.punch_card_max
+        return self.punch_card_incomplete_links == []
 
     @property
     def all_done(self) -> bool:
@@ -84,6 +85,10 @@ class MSRStats:
 
         self._browser.open_in_new_tab(DASHBOARD_URL)
         time.sleep(1)
+        
+        if self._browser.click_by_xpath('//a[contains(@class, "signup-btn welcome")]'):
+            logging.info('Welcome page detected.')
+            time.sleep(4)
 
         self.summary = MSRStatsSummary()
         self._parse_user_status(self._get_user_status_json())
@@ -143,9 +148,8 @@ class MSRStats:
         if 'morePromotions' not in json_doc:
             logging.exception('Cannot find key "morePromotions"')
             return
-        for q in json_doc['morePromotions']:
-            self.summary.quiz_progress += int(q['pointProgress'])
-            self.summary.quiz_max += int(q['pointProgressMax'])
+        for d in json_doc['morePromotions']:
+            self._add_quiz_to_summary(d)
 
     def _parse_daily(self, json_doc):
         if 'dailySetPromotions' not in json_doc:
@@ -155,19 +159,25 @@ class MSRStats:
         if today not in json_doc['dailySetPromotions']:
             return
         for d in json_doc['dailySetPromotions'][today]:
-            self.summary.quiz_progress += int(d['pointProgress'])
-            self.summary.quiz_max += int(d['pointProgressMax'])
+            self._add_quiz_to_summary(d)
+
+    def _add_quiz_to_summary(self, d):
+        self.summary.quiz_progress += int(d['pointProgress'])
+        self.summary.quiz_max += int(d['pointProgressMax'])
+        if not d['complete']:
+            self.summary.quiz_incomplete_names += d['name']
 
     def _parse_punch_cards(self, json_doc):
         if 'punchCards' not in json_doc:
             logging.exception('Cannot find key "punchCards"')
             return
-        for c in json_doc['punchCards']:
-            p = c['parentPromotion']
+        for d in json_doc['punchCards']:
+            p = d['parentPromotion']
             if not p:
                 continue
             if p['promotionType'].startswith('appstore'):
                 continue
             self.summary.punch_card_progress += int(p['pointProgress'])
             self.summary.punch_card_max += int(p['pointProgressMax'])
-            self.summary.punch_card_links.append(p['destinationUrl'])
+            if not p['complete']:
+                self.summary.punch_card_incomplete_links.append(p['destinationUrl'])
