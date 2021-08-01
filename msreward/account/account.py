@@ -1,5 +1,5 @@
-from msreward.account.login import MSRLogin
-from msreward.account.stats import MSRStats
+from .login import MSRLogin
+from .stats import MSRStats
 
 
 class MSRAccount(MSRLogin, MSRStats):

@@ -17,6 +17,8 @@ LOGIN_PASSWWORD_INPUT_NAME = 'passwd'
 LOGIN_OTC_INPUT_NAME = 'otc'
 LOGIN_SIGN_IN_BUTTON_XPATH = '//input[@type="submit"]'
 
+class FailToSignInException(Exception):
+    pass
 
 class MSRLogin:
     _browser: Browser
@@ -58,9 +60,28 @@ class MSRLogin:
         )
 
     def _enter_otc(self):
+        logging.debug(msg='OTC information is provided.')
+        if not self._browser.find_elements_by_name(LOGIN_OTC_INPUT_NAME):
+            self._switch_to_otc_method()
         totp = pyotp.TOTP(self.otp_secret)
         otc = totp.now()
         self._enter_login_screen_value(LOGIN_OTC_INPUT_NAME, otc, 'Sent OTC')
+
+    def _switch_to_otc_method(self):
+        logging.debug(msg='Switching to OTC verification method.')
+        sign_in_another_way = self._browser.find_by_id('signInAnotherWay')
+        if not sign_in_another_way:
+            raise FailToSignInException('Sign in is failed. Unable to switch to OTC verification method. Did not find the "sign in another way" link.')
+
+        sign_in_another_way[0].click()
+        time.sleep(1)
+        verificaiton_methods = self._browser.find_by_xpath('//div[@data-bind="text: display"]')
+        for vm in verificaiton_methods:
+            if 'mobile app' in vm.text:
+                vm.click()
+                break
+        else:
+            raise FailToSignInException(f'Sign in is failed. Unable to switch to OTC verification method. No such option. All options are:\n{[x.text for x in verificaiton_methods]}')
 
     def _enter_login_screen_value(self, ele_name, value, msg):
         self._browser.wait_until_clickable(By.NAME, ele_name, 10)
