@@ -1,5 +1,3 @@
 selenium==3.141.0
-requests==2.24.0
-urllib3==1.25.10
-lxml
-bs4
+requests==2.25.1
+pyotp==2.6.0
