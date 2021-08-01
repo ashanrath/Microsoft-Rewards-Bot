@@ -95,7 +95,7 @@ class MSRLogin:
         time.sleep(3)
         sign_in_prompt_msg = self._browser.find_by_class('simpleSignIn')
         if sign_in_prompt_msg:
-            logging.info(msg='Detected sign-in prompt')
+            logging.debug(msg='Detected sign-in prompt')
             self._browser.wait_until_clickable(By.LINK_TEXT, 'Sign in', 15)
             self._browser.find_element_by_link_text('Sign in').click()
             logging.info(msg='Clicked sign-in prompt')

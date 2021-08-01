@@ -87,7 +87,7 @@ class MSRStats:
         time.sleep(1)
         
         if self._browser.click_by_xpath('//a[contains(@class, "signup-btn welcome")]'):
-            logging.info('Welcome page detected.')
+            logging.debug('Welcome page detected.')
             time.sleep(4)
 
         self.summary = MSRStatsSummary()
@@ -175,7 +175,7 @@ class MSRStats:
             p = d['parentPromotion']
             if not p:
                 continue
-            if p['promotionType'].startswith('appstore'):
+            if 'appstore' in p['promotionType']:
                 continue
             self.summary.punch_card_progress += int(p['pointProgress'])
             self.summary.punch_card_max += int(p['pointProgressMax'])

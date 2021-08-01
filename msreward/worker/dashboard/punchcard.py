@@ -21,14 +21,14 @@ class MSRPunchCard:
                 logging.exception(msg='Error.')
             finally:
                 if self._verify_punch_card_completion():
-                    logging.info(msg='Punch Card completed')
+                    logging.info(msg='Punch Card is completed')
                     self._browser.goto_main_window()
                     return
-                logging.debug(msg=f'Punch Card did not complete. Attempt completed: {i}/3')
+                logging.debug(msg=f'Punch Card did not complete. Attempt: {i}/{max_attempts}')
                 self._browser.goto_main_window()
-        logging.info(msg='Punch Card not incomplete. Max number of attempts reached')
+        logging.info(msg='Punch Card is incomplete. Max number of attempts reached.')
 
-    def _click_through_punch_card(self, max_attempts=5):
+    def _click_through_punch_card(self, max_attempts=10):
         for _ in range(max_attempts):
             try:
                 if not self._browser.click_by_xpath('//a[@class= "offer-cta"]/child::button[contains(@class, "btn-primary")]'):
