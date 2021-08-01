@@ -50,8 +50,9 @@ This program will automatically complete search requests and quizzes on Microsof
 ## To Do
 
 - High priority:
-  - More logging
+  - Better logging
   - More type hint
+  - Simplify exception handling
   - Windows notification
 - Low priority:
   - Proxy support
