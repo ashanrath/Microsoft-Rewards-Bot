@@ -29,7 +29,12 @@ class MSR:
         self.account = MSRAccount(self.browser, self.email, self.pswd, self.opt_secret)
         self.worker = MSRWorker(self.browser, self.account)
         if log_in:
-            self.account.log_in()
+            try:
+                self.account.log_in()
+            except Exception:
+                logging.error(msg=f'{"Failed to sign in. An error has occurred."}', exc_info=True)
+                return False
+        return True
 
     def _quit_browser(self) -> None:
         if self.browser:
@@ -37,7 +42,9 @@ class MSR:
 
     def work(self, flag_pc: bool, flag_mob: bool, flag_quiz: bool) -> None:
         ua = PC_USER_AGENT if flag_pc or flag_quiz else MOBILE_USER_AGENT
-        self._start_browser(ua, log_in=True)
+        if not self._start_browser(ua, log_in=True):
+            logging.info('Fail to initiate.')
+            return
 
         summary = self.account.get_summary(log=True)
         if summary.all_done:
