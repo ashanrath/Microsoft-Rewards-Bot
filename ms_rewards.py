@@ -10,7 +10,7 @@ from helper.logger import *
 from helper.driver import update_driver
 
 
-msr_version = 'v2.0.1'
+msr_version = 'v2.0.2'
 
 def check_python_version():
     """

@@ -1,3 +1,10 @@
+**2021-08-01**
+
+    V2.0.2
+
+    - Improved quiz progress check
+    - Added support for switching to OTC if a different OTP method is selected. (Requires manual switch back to your desired OTP method afterwards)
+
 **2021-07-21**
 
     V2.0.1
