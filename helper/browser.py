@@ -258,8 +258,7 @@ class Browser(webdriver.Chrome):
         except WebDriverException:
             logging.exception(
                 msg=f'Webdriver Error for click by xpath to {xpath} object')
-        finally:
-            return False
+        return False
 
     def clear_by_id(self, obj_id) -> bool:
         """

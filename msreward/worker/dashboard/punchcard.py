@@ -32,10 +32,8 @@ class MSRPunchCard:
         for _ in range(max_attempts):
             try:
                 if not self._browser.click_by_xpath('//a[@class= "offer-cta"]/child::button[contains(@class, "btn-primary")]'):
-                    self._browser.close()
-                    self._browser.goto_latest_window()
                     break
-                time.sleep(4)
+                time.sleep(1)
                 self._browser.goto_latest_window()
                 self._browser.close()
                 self._browser.goto_latest_window()

@@ -107,8 +107,8 @@ if __name__ == '__main__':
             msr.work(flag_pc=parser.pc_mode, flag_mob=parser.mobile_mode,
                      flag_quiz=parser.quiz_mode)
 
-    except WebDriverException:
-        logging.exception(msg='Failure at main()')
+    except Exception:
+        logging.exception('An error has occurred.', exc_info=True)
     finally:
         logging.info(msg='--------------------------------------------------')
         logging.info(msg='-----------------------End------------------------')
