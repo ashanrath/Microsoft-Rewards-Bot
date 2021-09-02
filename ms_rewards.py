@@ -10,7 +10,7 @@ from helper.logger import *
 from helper.driver import update_driver
 
 
-msr_version = 'v2.0.2'
+msr_version = 'v2.1.0'
 
 def check_python_version():
     """
@@ -64,6 +64,12 @@ def parse_args():
         dest='log_level',
         type=log_level_string_to_int,
         help=f'Set the logging output level. {LOG_LEVEL_STRINGS}')
+    arg_parser.add_argument(
+        '--exit-on-finish',
+        action='store_true',
+        dest='exit_on_finish',
+        default=False,
+        help=f'Script will exit when finishes, otherwise will remain open and wait for user to press enter to end.')
     _parser = arg_parser.parse_args()
     if _parser.all_mode:
         _parser.mobile_mode = True
@@ -113,4 +119,5 @@ if __name__ == '__main__':
         logging.info(msg='--------------------------------------------------')
         logging.info(msg='-----------------------End------------------------')
         logging.info(msg='--------------------------------------------------')
-        input('Press any key to exit...')
+        if not parser.exit_on_finish:
+            input('Press any key to exit...')

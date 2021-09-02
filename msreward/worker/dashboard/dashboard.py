@@ -68,8 +68,7 @@ class MSRDashboard:
         if not open_offers:
             return []
         return [
-            offer.find_element_by_xpath(
-                'div[contains(@class,"actionLink")]//descendant::a')
+            offer.find_element_by_tag_name('a')
             for offer in open_offers
         ]
 
