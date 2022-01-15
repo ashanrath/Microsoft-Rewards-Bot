@@ -1,5 +1,12 @@
 **2021-08-01**
 
+    V2.0.3
+
+    - Added '--exit-on-finish' command line option.
+    - Fixed a bug in getting quiz links.
+  
+**2021-08-01**
+
     V2.0.2
 
     - Improved quiz progress check

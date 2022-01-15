@@ -141,7 +141,6 @@ class Browser(Chrome):
         finally:
             return False
 
-    # TODO Rename this here and in `send_key`, `click_element` and `clear_element`
     def _handle_no_such_element_exception(self, selector, by_):
         logging.exception(msg=f'Element not found when searched for {selector} by {by_}.', exc_info=False,)
         self.screenshot(selector)
