@@ -37,7 +37,7 @@ class MSRDashboard:
         self._browser.get(DASHBOARD_URL)
         time.sleep(0.1)
         self._browser.wait_until_visible(By.TAG_NAME, 'body', 10)  # checks for page load
-        open_offers = self._browser.find_elements_by_xpath(
+        open_offers = self._browser.find_elements(By.XPATH, 
             '//span[contains(@class, "mee-icon-AddMedium")]')
         logging.info(
             msg=f'Max attempt reached. Number of incomplete offers: {len(open_offers)}')
@@ -63,21 +63,21 @@ class MSRDashboard:
     def _goto_dashboard_get_offer_links(self) -> list[WebElement]:
         self._browser.get(DASHBOARD_URL)
         time.sleep(4)
-        open_offers = self._browser.find_elements_by_xpath('//span[contains(@class, "mee-icon-AddMedium")]/ancestor::div[contains(@data-bi-id, "Default")]')
+        open_offers = self._browser.find_elements(By.XPATH, '//span[contains(@class, "mee-icon-AddMedium")]/ancestor::div[contains(@data-bi-id, "Default")]')
         logging.info(msg=f'Number of open offers: {len(open_offers)}')
         if not open_offers:
             return []
         return [
-            offer.find_element_by_tag_name('a')
+            offer.find_element(By.TAG_NAME, 'a')
             for offer in open_offers
         ]
 
     def _complete_sign_in_prompt(self):
-        sign_in_prompt_msg = self._browser.find_by_class('simpleSignIn')
+        sign_in_prompt_msg = self._browser.find_elements(By.CLASS_NAME, 'simpleSignIn')
         if not sign_in_prompt_msg:
             return
         logging.info(msg='Detected sign-in prompt')
         self._browser.wait_until_clickable(By.LINK_TEXT, 'Sign in', 15)
-        self._browser.find_element_by_link_text('Sign in').click()
+        self._browser.click_element(By.LINK_TEXT, 'Sign in')
         logging.info(msg='Clicked sign-in prompt')
         time.sleep(4)

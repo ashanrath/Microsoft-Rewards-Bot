@@ -1,7 +1,8 @@
 import logging
 import time
 
-from selenium.common.exceptions import ElementClickInterceptedException, ElementNotInteractableException, ElementNotVisibleException, NoSuchElementException, TimeoutException, WebDriverException
+from selenium.common.exceptions import ElementClickInterceptedException, ElementNotInteractableException, ElementNotVisibleException, TimeoutException, WebDriverException
+from selenium.webdriver.common.by import By
 
 from helper.browser import Browser
 
@@ -22,16 +23,16 @@ class MSRPunchCard:
             finally:
                 if self._verify_punch_card_completion():
                     logging.info(msg='Punch Card is completed')
-                    self._browser.goto_main_window()
+                    self._browser.goto_main_window_close_others()
                     return
                 logging.debug(msg=f'Punch Card did not complete. Attempt: {i}/{max_attempts}')
-                self._browser.goto_main_window()
+                self._browser.goto_main_window_close_others()
         logging.info(msg='Punch Card is incomplete. Max number of attempts reached.')
 
     def _click_through_punch_card(self, max_attempts=10):
         for _ in range(max_attempts):
             try:
-                if not self._browser.click_by_xpath('//a[@class= "offer-cta"]/child::button[contains(@class, "btn-primary")]'):
+                if not self._browser.click_element(By.XPATH, '//a[@class= "offer-cta"]/child::button[contains(@class, "btn-primary")]'):
                     break
                 time.sleep(1)
                 self._browser.goto_latest_window()
@@ -42,6 +43,6 @@ class MSRPunchCard:
                 logging.exception(msg='Error occurred when clicking a punch card.')
 
     def _verify_punch_card_completion(self):
-        return not self._browser.find_by_xpath('//a[@class= "offer-cta" and ./button[contains(@class, "btn-primary")]]')
+        return not self._browser.find_elements(By.XPATH, '//a[@class= "offer-cta" and ./button[contains(@class, "btn-primary")]]')
                 
         

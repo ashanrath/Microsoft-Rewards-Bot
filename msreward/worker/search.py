@@ -72,10 +72,10 @@ class MSRSearch():
         # clears search bar and enters in next search term
         time.sleep(1)
         self._browser.wait_until_visible(By.ID, 'sb_form_q', 15)
-        self._browser.clear_by_id('sb_form_q')
-        self._browser.send_key_by_id('sb_form_q', term)
+        self._browser.clear_element(By.ID, 'sb_form_q')
+        self._browser.send_key(By.ID, 'sb_form_q', term)
         time.sleep(0.1)
-        self._browser.send_key_by_id('sb_form_q', Keys.RETURN)
+        self._browser.send_key(By.ID, 'sb_form_q', Keys.RETURN)
         # random sleep for more human-like, and let ms reward website keep up.
         time.sleep(random.randint(1, 3))
         self._browser.wait_until_clickable(
