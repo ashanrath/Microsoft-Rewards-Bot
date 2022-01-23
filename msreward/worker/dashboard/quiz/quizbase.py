@@ -7,6 +7,10 @@ from helper.browser import Browser
 
 class QuizBase:
     def __init__(self, browser:Browser, name, selector, by:By):
+        '''
+        :param selector: the selector that used to identify the availability of such quiz
+        :param by: By strategy for finding the selector
+        '''
         self._browser = browser
         self._name = name
         self._selector = selector
@@ -29,4 +33,4 @@ class QuizBase:
         NotImplementedError()
 
     def _close_quiz_comletion_splash(self):
-        self._browser.goto_main_window()
+        self._browser.goto_main_window_close_others()

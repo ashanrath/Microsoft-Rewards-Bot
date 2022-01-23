@@ -4,6 +4,8 @@ import json
 import re
 import datetime
 
+from selenium.webdriver.common.by import By
+
 from helper.browser import Browser
 
 
@@ -86,21 +88,21 @@ class MSRStats:
         self._browser.open_in_new_tab(DASHBOARD_URL)
         time.sleep(1)
         
-        if self._browser.click_by_xpath('//a[contains(@class, "signup-btn welcome")]'):
+        if self._browser.click_element(By.XPATH, '//a[contains(@class, "signup-btn welcome")]', ignore_no_ele_exc=True):
             logging.debug('Welcome page detected.')
             time.sleep(4)
 
         self.summary = MSRStatsSummary()
         self._parse_user_status(self._get_user_status_json())
 
-        self._browser.goto_main_window()
+        self._browser.goto_main_window_close_others()
 
         if log:
             self.summary.print()
         return self.summary
 
     def _get_user_status_json(self):
-        js = self._browser.find_elements_by_xpath(
+        js = self._browser.find_elements(By.XPATH, 
             '//script[text()[contains(., "userStatus")]]')
         if not js:
             return {}

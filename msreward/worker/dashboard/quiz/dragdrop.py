@@ -15,7 +15,7 @@ class DragDropQuiz(QuizBase):
 
     def _do_quiz(self):
         for _ in range(100):
-            if self._browser.find_by_id('quizCompleteContainer'):
+            if self._browser.find_elements(By.ID, 'quizCompleteContainer'):
                 break
             drag_options = self._get_options_for_drag_drop()
             if not drag_options:
@@ -33,8 +33,8 @@ class DragDropQuiz(QuizBase):
         self._close_quiz_comletion_splash()
 
     def _get_options_for_drag_drop(self):
-        drag_options = self._browser.find_by_class('rqOption')
-        right_answers = self._browser.find_by_class('correctAnswer')
+        drag_options = self._browser.find_elements(By.CLASS_NAME, 'rqOption')
+        right_answers = self._browser.find_elements(By.CLASS_NAME, 'correctAnswer')
         if right_answers:
             drag_options = [x for x in drag_options if x not in right_answers]
         return drag_options

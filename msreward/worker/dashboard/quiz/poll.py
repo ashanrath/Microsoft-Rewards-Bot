@@ -13,6 +13,6 @@ class PollQuiz(QuizBase):
     def _do_quiz(self):
         # click poll option
         choices = ['btoption0', 'btoption1']
-        self._browser.click_by_id(random.choice(choices))
+        self._browser.click_element(By.ID, random.choice(choices))
         time.sleep(1)
-        self._browser.goto_main_window()
+        self._browser.goto_main_window_close_others()
