@@ -4,6 +4,8 @@ from msreward.account import MSRAccount
 from msreward.worker import MSRWorker
 from helper.browser import Browser
 
+from helper.telegram import *
+
 # URLs
 DASHBOARD_URL = 'https://account.microsoft.com/rewards/dashboard'
 
@@ -40,17 +42,24 @@ class MSR:
         if self.browser:
             self.browser.quit()
 
-    def work(self, flag_pc: bool, flag_mob: bool, flag_quiz: bool) -> None:
+    def work(self, flag_pc: bool, flag_mob: bool, flag_quiz: bool, flag_telegram: bool) -> None:
         ua = PC_USER_AGENT if flag_pc or flag_quiz else MOBILE_USER_AGENT
         if not self._start_browser(ua, log_in=True):
             logging.info('Fail to initiate.')
             return
 
-        summary = self.account.get_summary(log=True)
+        summary = self.account.get_summary(log=True)     
+        
         if summary.all_done:
             logging.info(msg=f'{"Already done":-^33}')
+            if flag_telegram:
+                telegram_update_post_search(self.account.email,summary)
         else:
             self._work(flag_pc, flag_mob, flag_quiz)
+            if flag_telegram:
+                summary = self.account.get_summary(log=False)
+                telegram_update_post_search(self.account.email,summary)
+
         self._quit_browser()
 
     def _work(self, flag_pc: bool, flag_mob: bool, flag_quiz: bool) -> None:
