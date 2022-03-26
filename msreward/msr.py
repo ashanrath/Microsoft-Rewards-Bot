@@ -32,7 +32,7 @@ class MSR:
             try:
                 self.account.log_in()
             except Exception:
-                logging.error(msg=f'{"Failed to sign in. An error has occurred."}', exc_info=True)
+                logging.error(msg='Failed to sign in. An error has occurred.', exc_info=True)
                 return False
         return True
 

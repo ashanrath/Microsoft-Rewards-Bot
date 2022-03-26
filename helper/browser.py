@@ -6,8 +6,6 @@ from datetime import datetime
 
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
-# from undetected_chromedriver.v2 import Chrome
-# from undetected_chromedriver.options import ChromeOptions as Options
 from selenium.common.exceptions import WebDriverException, TimeoutException, \
     ElementClickInterceptedException, ElementNotVisibleException, \
     ElementNotInteractableException, NoSuchElementException, UnexpectedAlertPresentException
@@ -70,8 +68,8 @@ class Browser(Chrome):
         except UnexpectedAlertPresentException:
             self._unexpected_alert_handler(selector)
         except WebDriverException:
-            logging.exception(msg=f'Webdriver Error for {selector} object')
-            self.screenshot(selector)
+            ss = self.screenshot(selector)
+            logging.exception(msg=f'Webdriver Error for {selector} object. Screenshot saved to {ss}')
 
     def wait_until_clickable(self, by_: By, selector, time_to_wait=10, poll_frequency=0.5, raise_exc=False):
         try:
@@ -82,18 +80,18 @@ class Browser(Chrome):
         except UnexpectedAlertPresentException:
             self._unexpected_alert_handler(selector)
         except WebDriverException:
-            logging.exception(msg=f'Webdriver Error for {selector} object')
-            self.screenshot(selector)
+            ss = self.screenshot(selector)
+            logging.exception(msg=f'Webdriver Error for {selector} object. Screenshot saved to {ss}')
 
     def _unexpected_alert_handler(self, selector):
         self.switch_to.alert.dismiss()
-        logging.exception(msg='Unexpected Alert Exception', exc_info=False)
-        self.screenshot(selector)
+        ss = self.screenshot(selector)
+        logging.exception(msg=f'Unexpected Alert Exception. Screenshot saved to {ss}', exc_info=False)
         self.refresh()
 
     def _wait_until_timeout_handler(self, selector, arg1, raise_exc):
-        msg = f'{selector}{arg1}'
-        self.screenshot(selector)
+        ss = self.screenshot(selector)
+        msg = f'{selector}{arg1}. Screenshot saved to {ss}'
         if raise_exc:
             raise TimeoutException(msg)
         logging.exception(msg=msg, exc_info=False)
@@ -142,8 +140,8 @@ class Browser(Chrome):
             return False
 
     def _handle_no_such_element_exception(self, selector, by_):
-        logging.exception(msg=f'Element not found when searched for {selector} by {by_}.', exc_info=False,)
-        self.screenshot(selector)
+        ss = self.screenshot(selector)
+        logging.exception(msg=f'Element not found when searched for {selector} by {by_}. Screenshot save to {ss}', exc_info=False, )
         self.refresh()
 
     def js_click(self, element):
@@ -151,13 +149,14 @@ class Browser(Chrome):
         try:
             self.execute_script("arguments[0].click();", element)
         except Exception:
-            logging.exception(msg=f'Exception when JS click')
+            logging.exception(msg='Exception when JS click')
 
     def screenshot(self, selector):
         logging.exception(msg=f'{selector} cannot be located.')
         screenshot_file_name = f'{datetime.now().strftime("%Y%m%d%%H%M%S")}_{selector}.png'
         screenshot_file_path = os.path.join('logs', screenshot_file_name)
         self.save_screenshot(screenshot_file_path)
+        return screenshot_file_path
 
     def scroll_to_bottom(self):
         try:
@@ -165,13 +164,13 @@ class Browser(Chrome):
             self.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
         except Exception as e:
-            print('Exception when scrolling : %s' % e)
+            print('Exception when scrolling :', e)
 
     def scroll_to_top(self):
         try:
             self.find_element(By.TAG_NAME, 'body').send_keys(Keys.HOME)
         except Exception as e:
-            print('Exception when scrolling : %s' % e)
+            print('Exception when scrolling :', e)
 
     def open_in_new_tab(self, url):
         self.execute_script("window.open('');")
