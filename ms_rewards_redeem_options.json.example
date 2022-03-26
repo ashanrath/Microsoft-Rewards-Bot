@@ -1,0 +1,16 @@
+[
+	{
+		"type": "Xbox Live",
+		"short_desc": "XBL",
+		"currency": "$",
+		"value": "5",
+		"price": "4750"
+    },	
+	{
+		"type": "Other Gift Voucher",
+		"short_desc": "GV",
+		"currency": "$",
+		"value": "5",
+		"price": "6750"
+    }		
+]

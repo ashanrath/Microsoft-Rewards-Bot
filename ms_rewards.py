@@ -6,12 +6,11 @@ from msreward.msr import MSR
 import os
 import platform
 
-from selenium.common.exceptions import WebDriverException
 from helper.logger import *
 from helper.driver import update_driver
+from helper.telegram import *
 
-
-msr_version = 'v2.1.0'
+msr_version = 'v2.2.0'
 
 def check_python_version():
     """
@@ -19,8 +18,7 @@ def check_python_version():
     """
     minimum_version = ('3', '9')
     if platform.python_version_tuple() < minimum_version:
-        message = 'Only Python %s.%s and above is supported.' % minimum_version
-        raise Exception(message)
+        raise Exception('Only Python %s.%s and above is supported.' % minimum_version)
 
 
 def parse_args():
@@ -71,7 +69,12 @@ def parse_args():
         dest='exit_on_finish',
         default=False,
         help='Script will exit when finishes, otherwise will remain open and wait for user to press enter to end.')
-
+    arg_parser.add_argument(
+        '--telegram',
+        action='store_true',
+        dest='telegram_message',
+        default=False,
+        help='Activates telegram updates upon completion of searhes.')        
     _parser = arg_parser.parse_args()
     if _parser.all_mode:
         _parser.mobile_mode = True
@@ -100,6 +103,7 @@ def run_bot():
         logging.info(msg=f'Bot version: {msr_version}')
 
         login_cred = get_login_info()
+
         logging.info(msg=f'logins retrieved, {len(login_cred)} account(s):')
         for cred in login_cred:
             logging.info(msg=f'{hide_email(cred["email"])}')
@@ -112,7 +116,8 @@ def run_bot():
                 msg='--------------------------------------------------')
             logging.info(msg=f'Current account: {hide_email(msr.email)}')
             msr.work(flag_pc=parser.pc_mode, flag_mob=parser.mobile_mode,
-                     flag_quiz=parser.quiz_mode)
+                     flag_quiz=parser.quiz_mode, flag_telegram=parser.telegram_message)
+
 
     except Exception:
         logging.exception('An error has occurred.', exc_info=True)

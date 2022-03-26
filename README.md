@@ -17,11 +17,12 @@ This program will automatically complete search requests and quizzes on Microsof
 - Logs errors and info by default, can log executed commands and search terms by changing the log level to DEBUG
 - Tested and confirmed working for U.K. (more to come!)
 
-- Python          [3.9](https://www.python.org/downloads/)
-- Requests        2.25.1
-- Selenium        3.141.0
-- pyotp           2.6.0
-- Chrome Browser  (Up-to-date)
+- Python          		[3.9](https://www.python.org/downloads/)
+- Requests        		2.25.1
+- Selenium        		3.141.0
+- pyotp           		2.6.0
+- python-telegram-bot	13.7
+- Chrome Browser  		(Up-to-date)
 
 ## Use
 
@@ -38,6 +39,7 @@ This program will automatically complete search requests and quizzes on Microsof
     - `--pc` is for pc search
     - `--quiz` is for quiz search
     - `-a` or `--all` is short for mobile, pc, and quiz search
+	- `--telegram` is to enable telegram updates. Please follow please follow [README-Telegram](README-Telegram.md).
     - Script by default will execute mobile, pc, edge, searches, and complete quizzes for all accounts (can change this setting in the .py file)
     - Script by default will run in interactive mode
     - If python environment variable is not set, enter `/path/to/python/executable ms_rewards.py`
