@@ -1,6 +1,7 @@
 import argparse
 import json
 import logging
+from helper.utils import hide_email
 from msreward.msr import MSR
 import os
 import platform
@@ -69,7 +70,8 @@ def parse_args():
         action='store_true',
         dest='exit_on_finish',
         default=False,
-        help=f'Script will exit when finishes, otherwise will remain open and wait for user to press enter to end.')
+        help='Script will exit when finishes, otherwise will remain open and wait for user to press enter to end.')
+
     _parser = arg_parser.parse_args()
     if _parser.all_mode:
         _parser.mobile_mode = True
@@ -82,8 +84,7 @@ def get_login_info():
     with open('ms_rewards_login_dict.json', 'r') as f:
         return json.load(f)
 
-
-if __name__ == '__main__':
+def run_bot():
     check_python_version()
     if os.path.exists("drivers/chromedriver.exe"):
         update_driver()
@@ -101,7 +102,7 @@ if __name__ == '__main__':
         login_cred = get_login_info()
         logging.info(msg=f'logins retrieved, {len(login_cred)} account(s):')
         for cred in login_cred:
-            logging.info(msg=f'{cred["email"]}')
+            logging.info(msg=f'{hide_email(cred["email"])}')
 
         msrs = [MSR(x['email'], x['password'], x['secret'] if 'secret' in x else None, parser.headless)
                 for x in login_cred]
@@ -109,7 +110,7 @@ if __name__ == '__main__':
         for msr in msrs:
             logging.info(
                 msg='--------------------------------------------------')
-            logging.info(msg=f'Current account: {msr.email}')
+            logging.info(msg=f'Current account: {hide_email(msr.email)}')
             msr.work(flag_pc=parser.pc_mode, flag_mob=parser.mobile_mode,
                      flag_quiz=parser.quiz_mode)
 
@@ -121,3 +122,7 @@ if __name__ == '__main__':
         logging.info(msg='--------------------------------------------------')
         if not parser.exit_on_finish:
             input('Press any key to exit...')
+
+
+if __name__ == '__main__':
+    run_bot()

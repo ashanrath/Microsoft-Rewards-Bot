@@ -10,8 +10,8 @@ drivers/
 logs/
 geckodriver.log
 
-# JetBrains
-.idea/
+# vscode
+.vscode/
 
 # cached python objects
 *.pyc

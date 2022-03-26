@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 import pyotp
 
 from helper.browser import Browser
+from helper.utils import hide_email
 
 # URLs
 LOGIN_URL = 'https://login.live.com/'
@@ -27,7 +28,7 @@ class MSRLogin:
     otp_secret: str
 
     def log_in(self):
-        logging.info(msg=f'Logging in {self.email}...')
+        logging.info(msg=f'Logging in {hide_email(self.email)}...')
         self._browser.get(LOGIN_URL)
         time.sleep(0.5)
 
