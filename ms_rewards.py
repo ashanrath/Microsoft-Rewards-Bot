@@ -74,7 +74,7 @@ def parse_args():
         action='store_true',
         dest='telegram_message',
         default=False,
-        help='Activates telegram updates upon completion of searhes.')        
+        help='Sends an update to telegram upon completion.')
     _parser = arg_parser.parse_args()
     if _parser.all_mode:
         _parser.mobile_mode = True
@@ -88,14 +88,13 @@ def get_login_info():
         return json.load(f)
 
 def run_bot():
+    parser = parse_args()
+
     check_python_version()
     if os.path.exists("drivers/chromedriver.exe"):
         update_driver()
     try:
-        # argparse
-        parser = parse_args()
 
-        # start logging
         init_logging(log_level=parser.log_level)
         logging.info(msg='--------------------------------------------------')
         logging.info(msg='-----------------------New------------------------')

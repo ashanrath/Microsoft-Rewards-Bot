@@ -1,4 +1,4 @@
-selenium==3.141.0
-requests==2.25.1
+selenium==4.0.0b4
+requests==2.27.1
 pyotp==2.6.0
 python-telegram-bot==13.7
