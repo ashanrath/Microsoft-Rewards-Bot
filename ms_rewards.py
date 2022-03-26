@@ -10,7 +10,7 @@ from helper.logger import *
 from helper.driver import update_driver
 from helper.telegram import *
 
-msr_version = 'v2.2.0'
+msr_version = 'v2.1.0'
 
 def check_python_version():
     """

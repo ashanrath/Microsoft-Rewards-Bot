@@ -1,6 +1,6 @@
 **2021-03-26**
 
-    V2.2.0
+    V2.1.0
 
     - Telegram integration, thanks to @ashanrath.
     - Dependency upgraded.
@@ -8,7 +8,7 @@
 
 **2021-08-01**
 
-    V2.1.0
+    V2.0.3
 
     - Added '--exit-on-finish' command line option.
     - Fixed a bug in getting quiz links.
