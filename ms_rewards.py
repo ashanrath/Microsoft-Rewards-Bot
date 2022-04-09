@@ -6,6 +6,7 @@ from msreward.msr import MSR
 import os
 import platform
 
+from helper.filemigration import migrate_from_older_version
 from helper.logger import *
 from helper.driver import update_driver
 from helper.telegram import *
@@ -84,10 +85,11 @@ def parse_args():
 
 
 def get_login_info():
-    with open('ms_rewards_login_dict.json', 'r') as f:
+    with open('options/login_cred.json', 'r') as f:
         return json.load(f)
 
 def run_bot():
+    migrate_from_older_version()
     parser = parse_args()
 
     check_python_version()

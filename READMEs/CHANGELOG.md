@@ -4,6 +4,8 @@
 
     - Punch card quiz can now be completed.
     - MS reward dashboard URL is updated.
+    - Moved options and credential files to options folder
+    - Moved README and CHANGELOG to READMEs folder
 
 **2021-03-26**
 

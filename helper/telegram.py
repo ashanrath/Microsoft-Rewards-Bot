@@ -7,17 +7,17 @@ import math
 
 def get_telegram_info():
     try:
-        with open('ms_rewards_telegram_bot.json', 'r') as f:
+        with open('telegram_bot.json', 'r') as f:
             return json.load(f)
     except FileNotFoundError as e:
-        logging.exception(msg='Telegram updates are enabled, but ms_rewards_telegram_bot.json not found.', exc_info=False)
+        logging.exception(msg='Telegram updates are enabled, but telegram_bot.json not found.', exc_info=False)
 
     except Exception as e:
         logging.exception(msg=f'Telegram updates are enabled, but failed: {e}.')
 
 
 def get_redeem_options():
-    with open('ms_rewards_redeem_options.json', 'r') as f:
+    with open('redeem_options.json', 'r') as f:
         return json.load(f)
 
 
@@ -56,7 +56,7 @@ def points_credit_value(points):
 
         return '('+', '.join(message_list)+')'
     except FileNotFoundError as e:
-        logging.info(msg='Skipped redemption value check, ms_rewards_redeem_options.json not found.', exc_info=False)
+        logging.info(msg='Skipped redemption value check, redeem_options.json not found.', exc_info=False)
         return ''
     except Exception as e:
         logging.info(msg='Skipped redemption value check, failed to process file.', exc_info=False)
