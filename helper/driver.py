@@ -1,27 +1,20 @@
 import os
 import zipfile
 import requests
+import env
 
 def update_driver():
-    '''
-    Auto deletes Chrome driver to ensure no errors - this forces an autoupdate of chrome drivers. There is probably a more efficient way of doing this.
-    '''
     os.remove("drivers/chromedriver.exe")
 
 def download_driver(driver_path, system):
-    # determine latest chromedriver version
-    url = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"
-    r = requests.get(url)
+    r = requests.get(env.URL_CHROME_DRIVER_LATEST_RELEASE)
     latest_version = r.text
     if system == "Windows":
-        url = "https://chromedriver.storage.googleapis.com/{}/chromedriver_win32.zip".format(
-            latest_version)
+        url = f'https://chromedriver.storage.googleapis.com/{latest_version}/chromedriver_win32.zip'
     elif system == "Darwin":
-        url = "https://chromedriver.storage.googleapis.com/{}/chromedriver_mac64.zip".format(
-            latest_version)
+        url = f'https://chromedriver.storage.googleapis.com/{latest_version}/chromedriver_mac64.zip'
     elif system == "Linux":
-        url = "https://chromedriver.storage.googleapis.com/{}/chromedriver_linux64.zip".format(
-            latest_version)
+        url = f'https://chromedriver.storage.googleapis.com/{latest_version}/chromedriver_linux64.zip'
 
     response = requests.get(url, stream=True)
     zip_file_path = os.path.join(os.path.dirname(

@@ -9,8 +9,8 @@ import platform
 from helper.logger import *
 from helper.driver import update_driver
 from helper.telegram import *
+import env
 
-msr_version = 'v2.1.0'
 
 def check_python_version():
     """
@@ -99,7 +99,7 @@ def run_bot():
         logging.info(msg='--------------------------------------------------')
         logging.info(msg='-----------------------New------------------------')
         logging.info(msg='--------------------------------------------------')
-        logging.info(msg=f'Bot version: {msr_version}')
+        logging.info(msg=f'Bot version: {env.BOT_VERSION}')
 
         login_cred = get_login_info()
 

@@ -3,14 +3,14 @@ import time
 
 from selenium.webdriver.common.by import By
 
-from .quizbase import QuizBase
+from ..offerquestbase import OfferQuestBase
 
 
-class LightningQuiz(QuizBase):
+class LightningQuiz(OfferQuestBase):
     def __init__(self, browser):
-        super().__init__(browser, 'Lightning', 'rqAnswerOption0', By.ID)
+        super().__init__(browser, 'Lightning Quiz', 'rqAnswerOption0', By.ID)
 
-    def _do_quiz(self):
+    def _do_quest(self):
         for question_round in range(10):
             logging.debug(msg=f'Round# {question_round}')
             if self._browser.find_elements(By.ID, 'rqAnswerOption0'):
@@ -25,4 +25,3 @@ class LightningQuiz(QuizBase):
             time.sleep(1)
             if self._browser.find_elements(By.ID, 'quizCompleteContainer'):
                 break
-        self._close_quiz_comletion_splash()
