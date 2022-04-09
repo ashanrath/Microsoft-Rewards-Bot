@@ -1,4 +1,4 @@
-BOT_VERSION = 'v2.1.1'
+BOT_VERSION = 'v2.2.0'
 
 # URLs
 URL_LOGIN = 'https://login.live.com/'

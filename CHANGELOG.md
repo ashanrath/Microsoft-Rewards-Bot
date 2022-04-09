@@ -1,3 +1,10 @@
+**2021-04-09**
+
+    V2.2.0
+
+    - Punch card quiz can now be completed.
+    - MS reward dashboard URL is updated.
+
 **2021-03-26**
 
     V2.1.0
