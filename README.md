@@ -26,13 +26,13 @@ This program will automatically complete search requests and quizzes on Microsof
 ## Use
 
 1.  Clone and navigate to repo or download the latest [release](https://github.com/tmxkn1/Microsoft-Rewards-Bot/releases).
-2.  Modify `ms_rewards_login_dict.json.example` with your account names and passwords,
+2.  Modify `options/login_cred.json.example` with your account names and passwords,
     remove `.example` from filename.
-3.  If your account has 2-factor authentication (2FA) enabled, please follow [README-2FA](README-2FA.md).
+3.  If your account has 2-factor authentication (2FA) enabled, please follow [README-2FA](READMEs/README-2FA.md).
 4.  Enter into cmd/terminal/shell: `python -m pip install -r requirements.txt`
 5.  Enter into cmd/terminal/shell: `python ms_rewards.py --headless --mobile --pc --quiz`.
     - enter `-h` or `--help` for more instructions
-    - `--telegram` is to enable telegram integration. Please follow please follow [README-Telegram](README-Telegram.md).
+    - `--telegram` is to enable telegram integration. Please follow please follow [README-Telegram](READMEs/README-Telegram.md).
 
 *Hint: Replace `ms_rewards.py` with `ms_rewards.quiet.pyw` to run the bot in the background without a command window.*
 ### Optional
@@ -62,7 +62,7 @@ If the bot had worked before but stopped working all of a sudden, this may becau
 ## Versions
 
 For a summary of changes in each version of the bot, please see
-**[CHANGELOG](CHANGELOG.md).**
+**[CHANGELOG](READMEs/CHANGELOG.md).**
 
 #### Credit
 
