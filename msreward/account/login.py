@@ -96,13 +96,13 @@ class MSRLogin:
     def _log_into_bing_mobile(self):
         self._browser.get(URL_BING_SEARCH)
         self._browser.wait_until_clickable(By.XPATH, '//*[@aria-label="Preferences"]', 10)
-        self._browser.click_element(By.XPATH, '//*[@aria-label="Preferences"]')
+        self._browser.click_element(By.XPATH, '//*[@aria-label="Preferences"]', ignore_no_ele_exc=True)
         time.sleep(0.1)
         self._browser.wait_until_clickable(By.XPATH, "//*[text()='Sign in']//parent::a", 5)
         if self._browser.click_element(By.XPATH, "//*[text()='Sign in']//parent::a", ignore_no_ele_exc=True):
             self._browser.wait_until_clickable(By.XPATH, '//*[@aria-label="Preferences"]', 5)
         else:
-            self._browser.click_element(By.XPATH, '//*[@aria-label="Preferences"]')
+            self._browser.click_element(By.XPATH, '//*[@aria-label="Preferences"]', ignore_no_ele_exc=True)
 
     def _accept_bnp(self):
         self._browser.click_element(By.CLASS_NAME, 'bnp_btn_accept', ignore_no_ele_exc=True)
