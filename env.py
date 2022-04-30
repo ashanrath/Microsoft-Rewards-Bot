@@ -12,6 +12,4 @@ URL_GTREND = 'https://trends.google.com/trends/api/dailytrends?hl=en-US&geo=US&n
 USER_AGENT_PC = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                  'AppleWebKit/537.36 (KHTML, like Gecko) '
                  'Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134')
-USER_AGENT_MOBILE = ('Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; WebView/3.0) '
-                     'AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/64.118.222 '
-                     'Chrome/52.0.2743.116 Mobile Safari/537.36 Edge/15.15063')
+USER_AGENT_MOBILE = 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/99.0.4844.59 Mobile/15E148 Safari/604.1'
