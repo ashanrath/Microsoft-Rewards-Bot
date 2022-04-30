@@ -25,7 +25,7 @@ This program will automatically complete search requests and quizzes on Microsof
 
 ## Use
 
-1.  Clone and navigate to repo or download the latest [release](https://github.com/tmxkn1/Microsoft-Rewards-Bot/releases).
+1.  Clone and navigate to repo [recommended for staying up-to-date] or download the latest [release](https://github.com/tmxkn1/Microsoft-Rewards-Bot/releases).
 2.  Modify `options/login_cred.json.example` with your account names and passwords,
     remove `.example` from filename.
 3.  If your account has 2-factor authentication (2FA) enabled, please follow [README-2FA](READMEs/README-2FA.md).
