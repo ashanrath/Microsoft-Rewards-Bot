@@ -88,3 +88,17 @@ def telegram_update_post_search(email, summary):
         f'Total Points:  {summary.available_points:,} {points_credit_value_list}'
     )
     telegram_update(telegram_message)
+
+
+def telegram_update_error(email):
+    from datetime import datetime
+    email = markdown_escape(email)
+
+    telegram_message = (
+        f'Update for {email}\n'
+        f'```\n'
+        f'There was an error, check log around \n'
+        f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+        f'```'
+    )
+    telegram_update(telegram_message)
