@@ -80,7 +80,7 @@ def telegram_update_post_search(email, summary):
     points_credit_value_list = markdown_escape(points_credit_value(summary.available_points))
 
     telegram_message = (
-        f'Update for {email}\n'
+        f'\u2705 Update for {email}\n'
         f'```\n'
         f'    {pc_flag} PC  {pc_c}/{pc_m}  {pu_flag} Punch Card {pu_c}/{pu_m}\n'
         f'    {mo_flag} Mob {mo_c}/{mo_m}  {qz_flag} Quiz       {qz_c}/{qz_m}\n'
@@ -95,7 +95,7 @@ def telegram_update_error(email):
     email = markdown_escape(email)
 
     telegram_message = (
-        f'Update for {email}\n'
+        f'\u274C Update for {email}\n'
         f'```\n'
         f'There was an error, check log around \n'
         f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
