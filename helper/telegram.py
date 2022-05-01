@@ -7,7 +7,7 @@ import math
 
 def get_telegram_info():
     try:
-        with open('telegram_bot.json', 'r') as f:
+        with open('options/telegram_bot.json', 'r') as f:
             return json.load(f)
     except FileNotFoundError as e:
         logging.exception(msg='Telegram updates are enabled, but telegram_bot.json not found.', exc_info=False)
@@ -17,7 +17,7 @@ def get_telegram_info():
 
 
 def get_redeem_options():
-    with open('redeem_options.json', 'r') as f:
+    with open('options/redeem_options.json', 'r') as f:
         return json.load(f)
 
 
