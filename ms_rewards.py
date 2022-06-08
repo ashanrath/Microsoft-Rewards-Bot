@@ -4,6 +4,7 @@ import logging
 from helper.utils import hide_email
 from msreward.msr import MSR
 import os
+import sys
 import platform
 
 from helper.filemigration import migrate_from_older_version
@@ -17,11 +18,11 @@ def check_python_version():
     """
     Ensure the correct version of Python is being used.
     """
-    minimum_version = ('3', '9')
-    if platform.python_version_tuple() < minimum_version:
-        raise Exception('Only Python %s.%s and above is supported.' % minimum_version)
-
-
+    minimum_version = (3, 9)
+    if sys.version_info < minimum_version:
+        message = 'Only Python %s.%s and above is supported.' % minimum_version
+        raise Exception
+  
 def parse_args():
     """
     Parses command line arguments for headless mode, mobile search, pc search, quiz completion
