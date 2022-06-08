@@ -1,22 +1,10 @@
 import logging
 
-from msreward.account import MSRAccount
-from msreward.worker import MSRWorker
+from .account import MSRAccount
+from .worker import MSRWorker
 from helper.browser import Browser
-
 from helper.telegram import *
-
-# URLs
-DASHBOARD_URL = 'https://account.microsoft.com/rewards/dashboard'
-
-# user agents for edge/pc and mobile
-PC_USER_AGENT = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                 'AppleWebKit/537.36 (KHTML, like Gecko) '
-                 'Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134')
-MOBILE_USER_AGENT = ('Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; WebView/3.0) '
-                     'AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/64.118.222 '
-                     'Chrome/52.0.2743.116 Mobile Safari/537.36 Edge/15.15063')
-
+import env
 
 class MSR:
     def __init__(self, email: str, pswd: str, opt_secret: str=None, headless_mode: bool=True) -> None:
@@ -34,7 +22,7 @@ class MSR:
             try:
                 self.account.log_in()
             except Exception:
-                logging.error(msg=f'{"Failed to sign in. An error has occurred."}', exc_info=True)
+                logging.error(msg='Failed to sign in. An error has occurred.', exc_info=True)
                 return False
         return True
 
@@ -43,7 +31,7 @@ class MSR:
             self.browser.quit()
 
     def work(self, flag_pc: bool, flag_mob: bool, flag_quiz: bool, flag_telegram: bool) -> None:
-        ua = PC_USER_AGENT if flag_pc or flag_quiz else MOBILE_USER_AGENT
+        ua = env.USER_AGENT_PC if flag_pc or flag_quiz else env.USER_AGENT_MOBILE
         if not self._start_browser(ua, log_in=True):
             logging.info('Fail to initiate.')
             return
@@ -66,7 +54,7 @@ class MSR:
         logging.info(msg=f'{"Work started":-^33}')
         summary = self.account.summary
         if flag_quiz:
-            self.worker.do_dashboard(summary)
+            self.worker.do_offer(summary)
             self.worker.do_punchcard(summary)
         if flag_pc and not summary.pc_search_done:
             self.worker.do_search(summary.num_of_pc_search_needed)
@@ -82,4 +70,4 @@ class MSR:
             if self.browser.mobile_mode:
                 return
             self._quit_browser()
-        self._start_browser(MOBILE_USER_AGENT, log_in=True)
+        self._start_browser(env.USER_AGENT_MOBILE, log_in=True)

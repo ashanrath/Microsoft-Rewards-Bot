@@ -13,14 +13,7 @@ from selenium.webdriver.common.keys import Keys
 
 from msreward.account import MSRAccount
 from helper.browser import Browser
-
-# URLs
-BING_SEARCH_URL = 'https://www.bing.com/search'
-GTREND_URL = 'https://trends.google.com/trends/api/dailytrends?hl=en-US&geo=US&ns=15'
-
-# Web elements
-
-
+import env
 
 class MSRSearch():
     SEARCH_TERM_LOCAL_FILE = 'search_terms.json'
@@ -35,7 +28,7 @@ class MSRSearch():
         :param num_of_searches: int, NUmber of searches to perform
         :return: None
         """        
-        self._browser.get(BING_SEARCH_URL)
+        self._browser.get(env.URL_BING_SEARCH)
         search_name = f'{"Mobile" if self._browser.mobile_mode else "PC"} search'
         if num_of_searches < 1:
             logging.info(msg=f'{search_name} completed, no more search needs to be done.')
@@ -66,7 +59,7 @@ class MSRSearch():
                     num_of_searches += remaining
             except UnexpectedAlertPresentException:
                 self._browser.switch_to.alert.dismiss()
-                self._browser.get(BING_SEARCH_URL)
+                self._browser.get(env.URL_BING_SEARCH)
 
     def _search_term(self, term):
         # clears search bar and enters in next search term
@@ -132,7 +125,7 @@ class SearchTerms:
         list(set(self.search_terms))
 
     def _get_terms_from_google_trends(self, date):
-        url = f'{GTREND_URL}&ed={date}'
+        url = f'{env.URL_GTREND}&ed={date}'
         request = requests.get(url)
         response = json.loads(request.text[5:])
         # get all trending searches with their related queries

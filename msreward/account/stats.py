@@ -7,10 +7,7 @@ import datetime
 from selenium.webdriver.common.by import By
 
 from helper.browser import Browser
-
-
-# URLs
-DASHBOARD_URL = 'https://account.microsoft.com/rewards/'
+import env
 
 class MSRStatsSummary:
     POINT_PER_MOB_SEARCH = 3
@@ -66,7 +63,7 @@ class MSRStatsSummary:
         return self.punch_card_done and self.quiz_done and self.mob_search_done and self.pc_search_done
 
     def print(self):
-        logging.info(msg=f'Account summary:')
+        logging.info(msg='Account summary:')
         logging.info(msg=f'{"Available Points":.<25} {self.available_points}')
         logging.info(
             msg=f'{"PC Search ":.<25} {self.pc_search_progress}/{self.pc_search_max}')
@@ -85,7 +82,7 @@ class MSRStats:
         if cached:
             return self.summary
 
-        self._browser.open_in_new_tab(DASHBOARD_URL)
+        self._browser.open_in_new_tab(env.URL_DASHBOARD)
         time.sleep(1)
         
         if self._browser.click_element(By.XPATH, '//a[contains(@class, "signup-btn welcome")]', ignore_no_ele_exc=True):
@@ -95,7 +92,7 @@ class MSRStats:
         self.summary = MSRStatsSummary()
         self._parse_user_status(self._get_user_status_json())
 
-        self._browser.goto_main_window_close_others()
+        self._browser.close_all_but_main()
 
         if log:
             self.summary.print()

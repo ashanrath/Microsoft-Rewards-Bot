@@ -12,7 +12,7 @@ To automate the 2FA process, you must register a new time based 2FA for your acc
    - If it reminds you the risk and ask if you want to continue, click on "Yes/Next/Accept"...   
 2. Under the barcode, click on "I can't scan the barcode"
 3. Now you should see the Secret key
-4. Open `ms_rewards_login_dict.json` and under your credential block, add `"secret": "secretKeyWithoutSpace"`. You must **remove all spaces**. 
+4. Open `options/login_cred.json` and under your credential block, add `"secret": "secretKeyWithoutSpace"`. You must **remove all spaces**. 
 ```json
 [
     {

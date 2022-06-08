@@ -6,14 +6,14 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
 
-from .quizbase import QuizBase
+from ..offerquestbase import OfferQuestBase
 
 
-class DragDropQuiz(QuizBase):
+class DragDropQuiz(OfferQuestBase):
     def __init__(self, browser):
-        super().__init__(browser, 'Drag&Drop', 'rqAnswerOptionNum0', By.ID)
+        super().__init__(browser, 'Drag&Drop Quiz', 'rqAnswerOptionNum0', By.ID)
 
-    def _do_quiz(self):
+    def _do_quest(self):
         for _ in range(100):
             if self._browser.find_elements(By.ID, 'quizCompleteContainer'):
                 break
@@ -29,8 +29,6 @@ class DragDropQuiz(QuizBase):
                 logging.debug(msg='Unknown Error.')
                 continue
             time.sleep(1)
-
-        self._close_quiz_comletion_splash()
 
     def _get_options_for_drag_drop(self):
         drag_options = self._browser.find_elements(By.CLASS_NAME, 'rqOption')

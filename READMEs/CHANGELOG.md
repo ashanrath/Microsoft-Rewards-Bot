@@ -1,3 +1,20 @@
+**2021-04-09**
+
+    V2.2.0
+
+    - Punch card quiz can now be completed.
+    - MS reward dashboard URL is updated.
+    - Moved options and credential files to options folder
+    - Moved README and CHANGELOG to READMEs folder
+
+**2021-03-26**
+
+    V2.1.0
+
+    - Telegram integration, thanks to @ashanrath.
+    - Dependency upgraded.
+    - Code cleanup and bug fixes.
+
 **2021-08-01**
 
     V2.0.3

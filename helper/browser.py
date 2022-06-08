@@ -6,8 +6,6 @@ from datetime import datetime
 
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
-# from undetected_chromedriver.v2 import Chrome
-# from undetected_chromedriver.options import ChromeOptions as Options
 from selenium.common.exceptions import WebDriverException, TimeoutException, \
     ElementClickInterceptedException, ElementNotVisibleException, \
     ElementNotInteractableException, NoSuchElementException, UnexpectedAlertPresentException
@@ -70,8 +68,8 @@ class Browser(Chrome):
         except UnexpectedAlertPresentException:
             self._unexpected_alert_handler(selector)
         except WebDriverException:
-            logging.exception(msg=f'Webdriver Error for {selector} object')
-            self.screenshot(selector)
+            ss = self.screenshot()
+            logging.exception(msg=f'Webdriver Error for \'{selector}\' object. Screenshot saved to {ss}')
 
     def wait_until_clickable(self, by_: By, selector, time_to_wait=10, poll_frequency=0.5, raise_exc=False):
         try:
@@ -82,68 +80,74 @@ class Browser(Chrome):
         except UnexpectedAlertPresentException:
             self._unexpected_alert_handler(selector)
         except WebDriverException:
-            logging.exception(msg=f'Webdriver Error for {selector} object')
-            self.screenshot(selector)
+            ss = self.screenshot()
+            logging.exception(msg=f'Webdriver Error for \'{selector}\' object. Screenshot saved to {ss}')
 
     def _unexpected_alert_handler(self, selector):
         self.switch_to.alert.dismiss()
-        logging.exception(msg='Unexpected Alert Exception', exc_info=False)
-        self.screenshot(selector)
+        ss = self.screenshot()
+        logging.exception(msg=f'Unexpected Alert Exception. Screenshot saved to {ss}', exc_info=False)
         self.refresh()
 
     def _wait_until_timeout_handler(self, selector, arg1, raise_exc):
-        msg = f'{selector}{arg1}'
-        self.screenshot(selector)
+        ss = self.screenshot()
+        msg = f'\'{selector}\'{arg1}. Screenshot saved to {ss}'
         if raise_exc:
             raise TimeoutException(msg)
         logging.exception(msg=msg, exc_info=False)
 
     def send_key(self, by_, selector, key, ignore_no_ele_exc=False) -> bool:
+        flag = False
         try:
             self.find_element(by_, selector).send_keys(key)
-            return True
+            flag = True
         except (ElementNotVisibleException, ElementClickInterceptedException, ElementNotInteractableException):
-            logging.exception(msg=f'Found {selector} element by {by_}, but it is not visible or interactable.', exc_info=False)
+            logging.exception(msg=f'Found \'{selector}\' element by {by_}, but it is not visible or interactable.', exc_info=False)
         except NoSuchElementException:
             if not ignore_no_ele_exc:
                 self._handle_no_such_element_exception(selector, by_)
         except WebDriverException:
-            logging.exception(msg=f'Webdriver Error in sending key. Searched by {by_} for {selector}')
+            ss = self.screenshot()
+            logging.exception(msg=f'Webdriver Error in sending key. Searched by {by_} for \'{selector}\'. Screenshot saved to {ss}')
         finally:
-            return False
+            return flag
 
     def click_element(self, by_, selector, ignore_no_ele_exc=False) -> bool:
+        flag = False
         try:
             self.find_element(by_, selector).click()
-            return True
+            flag = True
         except (ElementNotVisibleException, ElementClickInterceptedException, ElementNotInteractableException):
-            logging.exception(msg=f'Found {selector} element by {by_}, but it is not visible or interactable. Attempting JS Click', exc_info=False)
+            logging.exception(msg=f'Found \'{selector}\' element by {by_}, but it is not visible or interactable. Attempting JS Click', exc_info=False)
             self.js_click(self.find_element(By.CLASS_NAME, selector))
         except NoSuchElementException:
             if not ignore_no_ele_exc:
                 self._handle_no_such_element_exception(selector, by_)
         except WebDriverException:
-            logging.exception(msg=f'Webdriver Error in clicking. Searched by {by_} for {selector}.')
+            ss = self.screenshot()
+            logging.exception(msg=f'Webdriver Error in clicking. Searched by {by_} for \'{selector}\'. Screenshot saved to {ss}')
         finally:
-            return False
+            return flag
 
     def clear_element(self, by_, selector, ignore_no_ele_exc=False) -> bool:
+        flag = False
         try:
             self.find_element(by_, selector).clear()
-            return True
+            flag = True
         except (ElementNotVisibleException, ElementNotInteractableException):
-            logging.exception(msg=f'Found {selector} element by {by_}, but it is not visible or interactable.', exc_info=False)
+            logging.exception(msg=f'Found \'{selector}\' element by {by_}, but it is not visible or interactable.', exc_info=False)
         except NoSuchElementException:
             if not ignore_no_ele_exc:
                 self._handle_no_such_element_exception(selector, by_)
         except WebDriverException:
-            logging.exception(msg=f'Webdriver Error in clearing. Searched by {by_} for {selector}.')
+            ss = self.screenshot()
+            logging.exception(msg=f'Webdriver Error in clearing. Searched by {by_} for \'{selector}\'. Screenshot saved to {ss}')
         finally:
-            return False
+            return flag
 
     def _handle_no_such_element_exception(self, selector, by_):
-        logging.exception(msg=f'Element not found when searched for {selector} by {by_}.', exc_info=False,)
-        self.screenshot(selector)
+        ss = self.screenshot()
+        logging.exception(msg=f'Element not found when searched for \'{selector}\' by {by_}. Screenshot save to {ss}', exc_info=False, )
         self.refresh()
 
     def js_click(self, element):
@@ -151,13 +155,14 @@ class Browser(Chrome):
         try:
             self.execute_script("arguments[0].click();", element)
         except Exception:
-            logging.exception(msg=f'Exception when JS click')
+            ss = self.screenshot()
+            logging.exception(msg=f'Exception when JS clicking element {element}. Screenshot saved to {ss}')
 
-    def screenshot(self, selector):
-        logging.exception(msg=f'{selector} cannot be located.')
-        screenshot_file_name = f'{datetime.now().strftime("%Y%m%d%%H%M%S")}_{selector}.png'
+    def screenshot(self):
+        screenshot_file_name = f'{datetime.now().strftime("%Y%m%d%H%M%S_%f")}.png'
         screenshot_file_path = os.path.join('logs', screenshot_file_name)
         self.save_screenshot(screenshot_file_path)
+        return screenshot_file_path
 
     def scroll_to_bottom(self):
         try:
@@ -165,25 +170,27 @@ class Browser(Chrome):
             self.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
         except Exception as e:
-            print('Exception when scrolling : %s' % e)
+            print('Exception when scrolling :', e)
 
     def scroll_to_top(self):
         try:
             self.find_element(By.TAG_NAME, 'body').send_keys(Keys.HOME)
         except Exception as e:
-            print('Exception when scrolling : %s' % e)
+            print('Exception when scrolling :', e)
 
     def open_in_new_tab(self, url):
         self.execute_script("window.open('');")
         self.goto_latest_window()
         self.get(url)
 
-    def goto_main_window_close_others(self):
+    def close_all_but_main(self):
         """
         Closes all other windows and switches focus back to main window
         :return: None
         """
         try:
+            if len(self.window_handles) == 1:
+                return
             for _ in range(len(self.window_handles)-1):
                 self.switch_to.window(self.window_handles[-1])
                 self.close()

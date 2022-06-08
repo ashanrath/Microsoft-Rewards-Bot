@@ -3,7 +3,7 @@
 To enable Telegram updates, you must 
 
 1. Check/create your Telegram API key and Chat ID. There are multiple ways to do this. One option is via the get_id_bot: https://telegram.me/get_id_bot
-2. Open `ms_rewards_telegram_bot.json` and add in your API key and chat ID:
+2. Open `options/telegram_bot.json.example` and add in your API key and chat ID:
 ```json
 [
 	{
@@ -12,7 +12,7 @@ To enable Telegram updates, you must
     }	
 ]
 ```
-3. Save the file.
+3. Save the file and remove `.example` from filename.
 4. Update [runbot.bat]/[runbot.sh] and add the `--telegram` flag.
 
 Telegram updates should be sent after searches are complete and shown as:
@@ -29,7 +29,7 @@ Telegram updates should be sent after searches are complete and shown as:
 The telegram update can also be used to show the value of any redemption options available with the current point balance.
 
 1. Go to https://rewards.microsoft.com/redeem/shop and confirm the details of any item that you wish to track for.
-2. Open `ms_rewards_redeem_options.json.example` and add in the details of any item to be tracked.
+2. Open `options/redeem_options.json.example` and add in the details of any item to be tracked.
 ```
 [
 	{
@@ -48,7 +48,7 @@ The telegram update can also be used to show the value of any redemption options
     }		
 ]
 ```
-3. Save the file.
+3. Save the file and remove `.example` from filename.
 
 
 Telegram updates should now include the redemption value the current point balance.

@@ -4,12 +4,12 @@ from selenium.common.exceptions import ElementClickInterceptedException, Element
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-from helper.browser import Browser
+from .offerquestbase import OfferQuestBase
+class LinkExplore(OfferQuestBase):
+    def __init__(self, browser):
+        super().__init__(browser, 'Link Explore', None, By.ID)
 
-class MSRLinkQuest:
-    _browser: Browser
-
-    def do_link_quest(self):
+    def _do_quest(self):
         try:
             html = self._browser.find_element(By.TAG_NAME, 'html')
             # scroll up and down to trigger points
@@ -17,7 +17,6 @@ class MSRLinkQuest:
                 html.send_keys(Keys.END)
                 html.send_keys(Keys.HOME)
             logging.info('Link Quest completed')
-            self._browser.goto_main_window_close_others()
         except TimeoutException:
             logging.exception(msg='Explore Daily Timeout Exception.')
         except (ElementNotVisibleException, ElementClickInterceptedException, ElementNotInteractableException):
