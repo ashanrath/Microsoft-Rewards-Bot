@@ -3,6 +3,7 @@ import json
 import logging
 from msreward.msr import MSR
 import os
+import sys
 import platform
 
 from selenium.common.exceptions import WebDriverException
@@ -16,8 +17,8 @@ def check_python_version():
     """
     Ensure the correct version of Python is being used.
     """
-    minimum_version = ('3', '9')
-    if platform.python_version_tuple() < minimum_version:
+    minimum_version = (3, 9)
+    if sys.version_info < minimum_version:
         message = 'Only Python %s.%s and above is supported.' % minimum_version
         raise Exception(message)
 
