@@ -43,10 +43,16 @@ class MSR:
             if flag_telegram:
                 telegram_update_post_search(self.account.email,summary)
         else:
-            self._work(flag_pc, flag_mob, flag_quiz)
-            if flag_telegram:
-                summary = self.account.get_summary(log=False)
-                telegram_update_post_search(self.account.email,summary)
+            try:
+                self._work(flag_pc, flag_mob, flag_quiz)
+                if flag_telegram:
+                    summary = self.account.get_summary(log=False)
+                    telegram_update_post_search(self.account.email,summary)
+            except Exception as e:
+                logging.error('', exc_info=True)
+                if flag_telegram:
+                    telegram_update_error(self.account.email)
+
 
         self._quit_browser()
 
