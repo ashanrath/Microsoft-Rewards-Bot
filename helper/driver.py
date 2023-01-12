@@ -2,6 +2,7 @@ import os
 import zipfile
 import requests
 import env
+import shutil
 
 def update_driver():
     os.remove("drivers/chromedriver.exe")
@@ -30,7 +31,7 @@ def download_driver(driver_path, system):
 
     driver = os.listdir(extracted_dir)[0]
     os.rename(os.path.join(extracted_dir, driver), driver_path)
-    os.rmdir(extracted_dir)
+    shutil.rmtree(extracted_dir)
 
     os.chmod(driver_path, 0o755)
     # way to note which chromedriver version is installed
